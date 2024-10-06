@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/exercise1/ros2_ws/src/examples" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/exercise2/ws/src/ros_gz" vcs="Git" />
   </component>
 </project>
