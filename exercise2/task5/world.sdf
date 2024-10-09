@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.8">
-    <world name="world">
+    <world name="custom_world">
         <!-- Moving Forward-->
         <plugin filename="libignition-gazebo-triggered-publisher-system.so"
                 name="ignition::gazebo::systems::TriggeredPublisher">
@@ -122,15 +122,19 @@
             </link>
         </model>
 
-        <model name='wall'>
+        <!-- WALLS -->
+        <model name='wall01'>
             <static>true</static>
-            <pose>5 0 0 0 0 0</pose><!--pose relative to the world-->
+            <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
+                <label>10</label>
+            </plugin>
+            <pose>10 0 0 0 0 0</pose><!--pose relative to the world-->
             <link name='box'>
                 <pose/>
                 <visual name='visual'>
                     <geometry>
                         <box>
-                            <size>0.5 10.0 2.0</size>
+                            <size>0.5 20.0 2.0</size>
                         </box>
                     </geometry>
                     <!--let's add color to our link-->
@@ -143,7 +147,7 @@
                 <collision name='collision'>
                     <geometry>
                         <box>
-                            <size>0.5 10.0 2.0</size>
+                            <size>0.5 20.0 2.0</size>
                         </box>
                     </geometry>
                 </collision>
@@ -161,5 +165,180 @@
                 <enabled>true</enabled>
             </plugin>
         </model>
+
+        <model name='wall02'>
+            <static>true</static>
+            <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
+                <label>10</label>
+            </plugin>
+            <pose>-10 0 0 0 0 0</pose><!--pose relative to the world-->
+            <link name='box'>
+                <pose/>
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>0.5 20 2.0</size>
+                        </box>
+                    </geometry>
+                    <!--let's add color to our link-->
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse>
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>0.5 20 2.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+            </link>
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                    name="ignition::gazebo::systems::TouchPlugin">
+                <target>vehicle_blue</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+        </model>
+
+        <model name='wall03'>
+            <static>true</static>
+            <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
+                <label>10</label>
+            </plugin>
+            <pose>0 10 0 0 0 0</pose><!--pose relative to the world-->
+            <link name='box'>
+                <pose/>
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>20 0.5 2.0</size>
+                        </box>
+                    </geometry>
+                    <!--let's add color to our link-->
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse>
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>20 0.5 2.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+            </link>
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                    name="ignition::gazebo::systems::TouchPlugin">
+                <target>vehicle_blue</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+        </model>
+
+        <model name='wall04'>
+            <static>true</static>
+            <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
+                <label>10</label>
+            </plugin>
+            <pose>0 -10 0 0 0 0</pose><!--pose relative to the world-->
+            <link name='box'>
+                <pose/>
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>20 0.5 2.0</size>
+                        </box>
+                    </geometry>
+                    <!--let's add color to our link-->
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse>
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>20 0.5 2.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+            </link>
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                    name="ignition::gazebo::systems::TouchPlugin">
+                <target>vehicle_blue</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+        </model>
+
+        <!-- OBSTACLES -->
+        <!-- TODO: vehicle_blue change for robot -->
+        <model name='obstacle01'>
+            <static>true</static>
+            <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
+                <label>20</label>
+            </plugin>
+            <pose>0 0 0 0 0 0</pose><!--pose relative to the world-->
+            <link name='box'>
+                <pose/>
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>0.5 8 2.0</size>
+                        </box>
+                    </geometry>
+                    <!--let's add color to our link-->
+                    <material>
+                        <ambient>1.0 0.0 0.0 1</ambient>
+                        <diffuse>1.0 0.0 0.0 1</diffuse>
+                        <specular>1.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>0.5 8 2.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+            </link>
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                    name="ignition::gazebo::systems::TouchPlugin">
+                <target>vehicle_blue</target>
+                <namespace>obstacle</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+        </model>
+
     </world>
 </sdf>
