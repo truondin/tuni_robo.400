@@ -114,6 +114,14 @@
         <ignition-gui/>
         <topic>semantic/labels_map</topic>
       </plugin>
+      <plugin name='Image Display' filename='ImageDisplay'>
+        <ignition-gui/>
+        <topic>world/shapes/model/realsense_d435/link/link/sensor/realsense_d435/depth_image</topic>
+      </plugin>
+      <plugin name='Image Display' filename='ImageDisplay'>
+        <ignition-gui/>
+        <topic>world/shapes/model/realsense_d435/link/link/sensor/realsense_d435/image</topic>
+      </plugin>
     </gui>
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
@@ -184,7 +192,7 @@
       <name>Car1</name>
       <pose>-2 -2 0 0 -0 0</pose>
      <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-      <label>Car1</label>
+      <label>10</label>
      </plugin>
     </include>
     <include>
@@ -192,7 +200,7 @@
       <name>Car2</name>
       <pose>-3 -5 0 0 -0 0</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Car2</label>
+       <label>20</label>
       </plugin>
     </include>
     <include>
@@ -200,7 +208,7 @@
       <name>Car3</name>
       <pose>-4 3 0 0 0 -1.57</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Car3</label>
+       <label>30</label>
       </plugin>
     </include>
     <include>
@@ -208,7 +216,7 @@
       <name>tree1</name>
       <pose>-2 5 0 0 -0 0</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Tree1</label>
+       <label>40</label>
       </plugin>
     </include>
     <include>
@@ -216,7 +224,7 @@
       <name>tree2</name>
       <pose>-7 2 0 0 -0 0</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Tree2</label>
+       <label>50</label>
       </plugin>
     </include>
     <include>
@@ -224,7 +232,7 @@
       <name>home</name>
       <pose>-15 0 0 0 -0 1.57</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Home</label>
+       <label>60</label>
       </plugin>
     </include>
     <include>
@@ -232,7 +240,7 @@
       <name>cone1</name>
       <pose>0 1 0 0 -0 1.5708</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Cone1</label>
+       <label>70</label>
       </plugin>
     </include>
     <include>
@@ -240,7 +248,7 @@
       <name>cone2</name>
       <pose>0 4 0 0 -0 1.5708</pose>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
-       <label>Cone2</label>
+       <label>80</label>
       </plugin>
     </include>
 
