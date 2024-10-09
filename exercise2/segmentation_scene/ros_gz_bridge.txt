@@ -1,0 +1,4 @@
+/panoptic/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo
+/semantic/camera_info@sensor_msgs/msg/CameraInfo@ignition.msgs.CameraInfo
+/world/shapes/model/realsense_d435/link/link/sensor/realsense_d435/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image
+/world/shapes/model/realsense_d435/link/link/sensor/realsense_d435/image@sensor_msgs/msg/Image@ignition.msgs.Image
