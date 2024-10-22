@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rclpy
+import random
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan  # Lidar message
 from geometry_msgs.msg import Twist
@@ -17,9 +18,8 @@ class VehicleController(Node):
         self.subscription  # prevent unused variable warning
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
 
-
-
     def listener_callback(self, msg: LaserScan):
+        print(self.get_name())
         all_more = True
         for value in msg.ranges:
             if value < 1:
