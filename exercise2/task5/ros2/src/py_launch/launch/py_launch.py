@@ -26,6 +26,7 @@ def generate_launch_description():
         launch_ros.actions.Node(
             package='py_robot_controller',
             executable='controller',
+            prefix='gnome-terminal -- ',
             name='vehicle_controller'),
         launch_ros.actions.Node(
             package='ros_gz_bridge',

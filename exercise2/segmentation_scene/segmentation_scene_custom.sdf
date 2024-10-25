@@ -356,34 +356,17 @@
       <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Intel RealSense D435</uri>
       <name>realsense_d435</name>
       <pose>4 0 1.5 0 0 3.14</pose>
+      <sensor name='depth' type='depth'>
+        <camera>
+            <save enabled="true">
+              <path>segmentation_data/real_sense</path>
+            </save>
+        </camera>
+      </sensor>
       <plugin filename="ignition-gazebo-label-system" name="ignition::gazebo::systems::Label">
         <label>90</label>
       </plugin>
-      <link name="link">
-        <pose>4 0.05 0.05 0 0 0</pose>
-        <sensor name="realsense_d435_rgbd" type="depth">
-          <update_rate>30</update_rate>
-          <camera>
-            <horizontal_fov>1.047</horizontal_fov>
-            <image>
-              <width>800</width>
-              <height>600</height>
-            </image>
-            <clip>
-              <near>0.1</near>
-              <far>100</far>
-            </clip>
-            <depth_image_topic>realsense/depth_image</depth_image_topic>
-            <rgb_image_topic>realsense/rgb_image</rgb_image_topic>
-            <point_cloud_topic>realsense/point_cloud</point_cloud_topic>
-            <save enabled="true">
-              <path>realsense_data</path>
-            </save>
-          </camera>
-          <always_on>1</always_on>
-          <visualize>true</visualize>
-        </sensor>
-      </link>
+
     </include>
 
     <light name='sun' type='directional'>
