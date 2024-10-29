@@ -1,0 +1,20 @@
+topics:
+    - /turtle1/cmd_vel -> for moving and turning
+        - show msg: ros2 interface show geometry_msgs/msg/Twist
+    - /turtle1/color_sensor -> color of background
+    - /turtle1/pose -> for position and velocities of turtle
+
+topics and messages for sending velocity commands:
+    - topic /cmd_vel and msg Twist is for sending the information for controlling the turtle
+    - topic /pose and msg Pose is the actual topic and msg with information about position and angular/linear velocity
+
+ros2 command for circle movement:
+    ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 4.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 2.0}}"
+
+ros2 command for square movement (alternating between straight movement and 90 degree turn):
+    concatenated with && keyword:
+        - ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" && ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.57}}" && ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" && ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.57}}" && ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" && ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.57}}" && ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
+    shell script:
+        - ./task1_square_movement.sh
+
+concatenate multiple commands -> by && keyword or shell script (or create ros2 package)
