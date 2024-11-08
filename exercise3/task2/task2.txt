@@ -1,0 +1,11 @@
+2.1:
+
+before launch -> source the gazebo: source /usr/share/gazebo/setup.sh
+for launch turtleBot3 world:
+    - export TURTLEBOT3_MODEL=waffle
+    - ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+
+for launch turtlebot3 house:
+    - export TURTLEBOT3_MODEL=waffle_pi
+    - ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
+
