@@ -2,7 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/exercise1/ros2_ws/src/examples" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/exercise2/ws/src/ros_gz" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/exercise3/task2/turtlebot3_ws/src/turtlebot3_simulations" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/exercise4/ws/src" vcs="Git" />
   </component>
 </project>

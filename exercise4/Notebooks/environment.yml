@@ -1,0 +1,15 @@
+name: tracker
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - ipykernel
+  - python=3.10
+  - pip:
+    - cvbridge3
+    - imutils
+    - opencv-python
+prefix: /home/user/miniconda3/tracker
+
+
+

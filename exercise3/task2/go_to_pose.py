@@ -47,33 +47,35 @@ class GoToPose(Node):
         distance = self.linear_vel()
         angle = math.atan2(self.goal_y - self.current_y, self.goal_x - self.current_x)
 
-        angle_err = angle - self.current_theta
+        if angle < 0:
+            angle_err = self.current_theta + angle
+        else:
+            angle_err = angle - self.current_theta
 
         twist = Twist()
-        # if self.is_in_goal:
-        #     goal_angle_err = self.goal_theta - self.current_theta
-        #     if abs(goal_angle_err) > angle_tolerance:
-        #         twist.angular.z = 0.5 * goal_angle_err
-        #     else:
-        #         twist.angular.z = 0.0
-        #         twist.linear.x = 0.0
-        #         self.get_logger().info("Goal theta reached")
-        #         self.publisher.publish(twist)
-        #         quit()
-        # else:
-        if abs(angle_err) > angle_tolerance:
-            twist.angular.z = self.constant * angle_err
-        else:
-            if distance >= dist_tolerance:
-                twist.linear.x = self.constant * distance
-                twist.angular.z = 0.0
+        if self.is_in_goal:
+            goal_angle_err = self.goal_theta - self.current_theta
+            if abs(goal_angle_err) > angle_tolerance:
+                twist.angular.z = min(self.constant * angle_err, 0.1)
             else:
-                twist.linear.x = 0.0
                 twist.angular.z = 0.0
-                self.get_logger().info("Goal reached")
+                twist.linear.x = 0.0
+                self.get_logger().info("Goal theta reached")
                 self.publisher.publish(twist)
-                self.is_in_goal = True
                 quit()
+        else:
+            if abs(angle_err) > angle_tolerance:
+                twist.angular.z = min(self.constant * angle_err, 0.1)
+            else:
+                if distance >= dist_tolerance:
+                    twist.linear.x = min(self.constant * distance, 1.0)
+                    twist.angular.z = 0.0
+                else:
+                    twist.linear.x = 0.0
+                    twist.angular.z = 0.0
+                    self.get_logger().info("Goal reached")
+                    self.publisher.publish(twist)
+                    self.is_in_goal = True
 
         self.publisher.publish(twist)
 

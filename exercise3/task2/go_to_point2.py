@@ -24,7 +24,7 @@ class GoToPoint(Node):
         self.timer = self.create_timer(0.5, self.move_to_goal)
         # self.timer = self.create_timer(0.5, self.test)
 
-        self.constant = 1
+        self.constant = 0.7
 
     def test(self):
         print(f"pos {self.current_x} {self.current_y}, theta {self.current_theta}")
@@ -56,15 +56,18 @@ class GoToPoint(Node):
         distance = self.linear_vel()
         angle = round(math.atan2(self.goal_y - self.current_y, self.goal_x - self.current_x), 4)
 
-        angle_err = angle - self.current_theta
+        if angle < 0:
+            angle_err = self.current_theta + angle
+        else:
+            angle_err = angle - self.current_theta
 
         twist = Twist()
         if abs(angle_err) > angle_tolerance:
-            twist.angular.z = self.constant * angle_err
+            twist.angular.z = min(self.constant * angle_err, 0.1)
             print(f"angular velocity: {twist.angular.z}, current theta: {self.current_theta}, angle: {angle}")
         else:
             if distance >= dist_tolerance:
-                twist.linear.x = self.constant * distance
+                twist.linear.x = min(self.constant * distance, 1.0)
                 twist.angular.z = 0.0
                 print(f"linear velocity: {twist.linear.x}")
             else:
