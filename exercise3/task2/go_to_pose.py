@@ -44,6 +44,9 @@ class GoToPose(Node):
         return math.sqrt((self.goal_x - self.current_x) ** 2 + (self.goal_y - self.current_y) ** 2)
 
     def control_robot(self):
+        if not self.coords_set:
+            return
+
         if self.is_in_goal:
             twist = self.rotate()
         else:
