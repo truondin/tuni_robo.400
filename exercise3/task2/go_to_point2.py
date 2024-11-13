@@ -22,14 +22,7 @@ class GoToPoint(Node):
         self.current_theta = 0.0
         self.coords_set = False
         self.timer = self.create_timer(0.5, self.move_to_goal)
-        # self.timer = self.create_timer(0.5, self.test)
-
-        self.constant = 0.7
-
-    def test(self):
-        print(f"pos {self.current_x} {self.current_y}, theta {self.current_theta}")
-        angle = round(math.atan2(self.goal_y - self.current_y, self.goal_x - self.current_x), 4)
-        print(f"angle {angle}")
+        self.kp = 0.7
 
     def odom_callback(self, msg):
         self.current_x = round(msg.pose.pose.position.x, 4)
@@ -54,7 +47,7 @@ class GoToPoint(Node):
         angle_tolerance = 0.01
 
         distance = self.linear_vel()
-        angle = round(math.atan2(self.goal_y - self.current_y, self.goal_x - self.current_x), 4)
+        angle = round(self.compute_angle(), 4)
 
         if angle < 0:
             angle_err = self.current_theta + angle
@@ -63,11 +56,11 @@ class GoToPoint(Node):
 
         twist = Twist()
         if abs(angle_err) > angle_tolerance:
-            twist.angular.z = min(self.constant * angle_err, 0.1)
+            twist.angular.z = min(self.kp * angle_err, 0.1)
             print(f"angular velocity: {twist.angular.z}, current theta: {self.current_theta}, angle: {angle}")
         else:
             if distance >= dist_tolerance:
-                twist.linear.x = min(self.constant * distance, 1.0)
+                twist.linear.x = min(self.kp * distance, 1.0)
                 twist.angular.z = 0.0
                 print(f"linear velocity: {twist.linear.x}")
             else:
@@ -75,7 +68,6 @@ class GoToPoint(Node):
                 twist.angular.z = 0.0
                 self.get_logger().info("Goal reached")
                 self.publisher.publish(twist)
-                self.is_in_goal = True
                 quit()
 
         self.publisher.publish(twist)
