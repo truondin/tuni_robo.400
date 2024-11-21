@@ -59,7 +59,7 @@ class RobotController(Node):
             # angle_to_goal = goal_pose - self.current_pose['theta']
         # else:
             # angle_to_goal = self.current_pose['theta'] - (goal_pose + self.current_pose['theta'])
-        # 
+
         # self.get_logger().info(str(angle_to_goal))
 
         # Stop if close to the goal
@@ -96,10 +96,10 @@ class RobotController(Node):
         dx = goal_x - self.current_pose['x']
         dy = goal_y - self.current_pose['y']
         distance = math.sqrt(dx**2 + dy**2)
-        angle_to_goal = math.atan2(dy, dx) - self.current_pose['theta']
+        angle_to_goal = self.wrap_angle(math.atan2(dy, dx) - self.current_pose['theta'])
+        theta_error = self.wrap_angle(goal_theta - self.current_pose['theta'])
 
         # Stop if close to the goal position and orientation
-        theta_error = goal_theta - self.current_pose['theta']
         if distance < 0.05 and abs(theta_error) < 0.05:
             self.publish_velocity(0.0, 0.0)
             self.goal_reached = True
@@ -109,11 +109,14 @@ class RobotController(Node):
 
         # Proportional control
         if distance > 0.05:
+            # Move toward the goal position
             linear_velocity = min(self.linear_kp * distance, 0.2)
-            angular_velocity = max(-2.5, min(self.angular_kp * angle_to_goal, 2.5))
+            angular_velocity = max(-1.0, min(self.angular_kp * angle_to_goal, 1.0))
         else:
+            # Align to the target orientation
             linear_velocity = 0.0
-            angular_velocity = max(-2.5, min(self.angular_kp * theta_error, 2.5))
+            angular_velocity = max(-1.0, min(self.angular_kp * theta_error, 1.0))
+
         self.publish_velocity(linear_velocity, angular_velocity)
 
     def follow_path(self, waypoints):
