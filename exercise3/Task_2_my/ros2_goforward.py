@@ -30,10 +30,10 @@ class GoForward(Node):
     def stop_turtlebot(self):
     	# define what happens when program is interrupted
     	# log that turtlebot is being stopped
-    	self.get_logger().info('stopping turtlebot')
+        self.get_logger().info('stopping turtlebot')
     	# publishing an empty Twist() command sets all velocity components to zero
     	# Otherwise turtlebot keeps moving even if command is stopped
-    	self.publisher_.publish(Twist())
+        self.publisher_.publish(Twist())
     	
     
 def main(args=None):
@@ -41,17 +41,17 @@ def main(args=None):
     
     # we are using try-except tools to  catch keyboard interrupt
     try:
-    	# create an object for GoForward class
-    	cmd_publisher = GoForward()
-    	# continue untill interrupted
-    	rclpy.spin(cmd_publisher)
+        # create an object for GoForward class
+        cmd_publisher = GoForward()
+        # continue untill interrupted
+        rclpy.spin(cmd_publisher)
     	
     except KeyboardInterrupt:
     	# execute shutdown function
-    	cmd_publisher.stop_turtlebot()
+        cmd_publisher.stop_turtlebot()
     	# clear the node
-    	cmd_publisher.destroy_node()
-    	rclpy.shutdown()
+        cmd_publisher.destroy_node()
+        rclpy.shutdown()
     	
 if __name__ == '__main__':
     main()
