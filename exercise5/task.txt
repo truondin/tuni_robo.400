@@ -1,0 +1,104 @@
+Sourcing:
+source /usr/share/gazebo/setup.sh
+
+Run my world:
+ros2 launch turtlebot3_gazebo turtlebot3_new_world.launch.py
+
+
+Run SLAM node:
+export TURTLEBOT3_MODEL=burger
+roslaunch turtlebot3_slam turtlebot3_slam.launch slam_methods:=gmapping
+
+run teleoperation:
+export TURTLEBOT3_MODEL=burger
+ros2 run turtlebot3_teleop teleop_keyboard
+
+save map:
+rosrun map_server map_saver -f /maps
+
+INFO for /opt/ros/humble/share/turtlebot3_cartographer/config/turtlebot3_lds_2d.lua:
+TRAJECTORY_BUILDER_2D.min_range: Minimum distance for valid LIDAR readings (0.12m).
+TRAJECTORY_BUILDER_2D.max_range: Maximum distance for valid LIDAR readings (3.5m).
+
+Modify these values to simulate limited sensor capabilities. For example:
+
+    Reduce the range: Simulate a degraded LIDAR sensor by decreasing the max_range to 1.5 m.
+    Increase the minimum range: Simulate poor near-field detection by increasing min_range to 0.3 m.
+
+Expected Outcomes
+With Reduced LIDAR Range
+
+    Artifacts in the Map: You may notice incomplete or distorted maps, especially in large spaces where obstacles are beyond the reduced max_range.
+    Frequent Localization Errors: The robot may lose track of its pose in areas where fewer features are detected.
+    Poor Loop Closure: Limited range can result in weaker constraints for global optimization, leading to inconsistent maps.
+
+With Increased Minimum Range
+
+    Blind Spots: Obstacles close to the robot may not be detected, resulting in missed details or collisions in navigation.
+    Mapping Gaps: The map may have holes where nearby features are not captured.
+
+TASK 3:
+
+Run navigation:
+export TURTLEBOT3_MODEL=burger2
+ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=/home/truong/Desktop/tuni_robo.400/exercise3/task2/turtlebot3_ws/maps/new_world_map.yaml
+
+burger2 sensors used for navigation
+ - lidar sensors (/scan)
+ - wheel odometry (/odom)
+ - static map
+ - bumber sensors
+ - costmap
+
+When navigation is running, several paths are projected forward of the TurtleBot, in different colors.
+Explain what these are:
+ - they are trajectory predictions by the DWB Local Planner (Dynamic Window Approach)
+    - based on:
+    The current velocity.
+    Constraints on acceleration and deceleration.
+    The robot's dynamic limits (e.g., max linear and angular velocity).
+    The costmap data representing obstacles and free space.
+ - trajectories are evaluated in real-time for choosing the most optimal path
+ - colors of path correspond to cost evaluations (based on various criteria) -> choosing path with lowest cost
+    - evaluation includes: path distance, goal distance, obstacle avoidance, velocity and feasibility
+    - colors meaning:
+            Green: Low-cost trajectories (likely to be selected).
+            Yellow/Orange: Medium-cost trajectories (suboptimal).
+            Red: High-cost trajectories (e.g., close to obstacles or diverging from the path).
+
+How do cost values (cost_scaling_factor) affect the shape of the path to navigate:
+ - the cost_scaling_factor influence the robot's path shape by controlling how obstacles and their surrounding areas are represented in the costmap
+ - value of the cost is trade-off between Safety vs. Efficiency
+ - The cost_scaling_factor determines the rate at which the cost increases as the robot approaches an obstacle.
+ - higher cost_scaling_factor:
+    - The planner tends to avoid obstacles more aggressively -> robot may take longer or less direct routes to maintain a safe distance.
+    - can lead to a smoother path far from obstacles but potentially less efficient navigation.
+ - lower cost_scaling_factor:
+    - The planner may allow paths that come closer to obstacles -> robot may take more direct but tighter paths around obstacles.
+    - can result in more efficient navigation in terms of distance but could increase the risk of collisions in tight spaces.
+
+How does the obstacle radius (inflation_radius) affect the (local and global) navigation?
+ - The inflation_radius defines the buffer zone around obstacles by inflating their size on the costmap.
+ - This affects how navigation algorithms perceive obstacles and influences path planning.
+ - value of the radius is trade-off between Safety vs. Efficiency
+ - The inflation_radius specifies the maximum distance around an obstacle where costs will be assigned.
+    - beyond radius => cost = 0
+    - Inside the radius, the cost gradually increases as the robot approaches the obstacle (based on the cost_scaling_factor)
+
+ - Impact:
+    - GLOBAL navigation (high-level path from the start to the goal):
+        - Larger inflation_radius:
+                - obstacles appear larger -> planner creates paths that stays farther from obstacles
+                - global path may be smoother but longer
+        - Smaller inflation_radius:
+                - obstacles appear smaller -> planner creates path closer to obstacles
+                - global path may be shorter but with increased risk
+    - LOCAL navigation (generates short-term paths to follow the global plan while avoiding dynamic obstacles):
+        - Larger inflation_radius:
+                - local planner is more conservative, avoiding areas near obstacles entirely
+                - smoother but less efficient paths (detours)
+        - Smaller inflation_radius:
+                - less conservative -> allowing paths closer to obstacles
+                - more efficient but with risk of collision with obstacles
+
+

@@ -6,7 +6,7 @@ import time
 class TurtleBotMotion(Node):
     def __init__(self):
         super().__init__('turtlebot_motion')
-        self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.publisher_ = self.create_publisher(Twist, '/turtle1/cmd_vel', 10)
         time.sleep(1)  # Allow time for the publisher to set up
 
     def move_square(self):
@@ -14,13 +14,13 @@ class TurtleBotMotion(Node):
         
         # Define commands for square pattern (forward and turn)
         motions = [
-            (0.2, 0.0, 2.0),   # Move forward for 2 seconds
+            (1.0, 0.0, 2.0),   # Move forward for 2 seconds
             (0.0, 1.57, 1.0),  # Turn 90 degrees (1.57 radians) in 1 second
-            (0.2, 0.0, 2.0),   # Move forward for 2 seconds
+            (1.0, 0.0, 2.0),   # Move forward for 2 seconds
             (0.0, 1.57, 1.0),  # Turn 90 degrees
-            (0.2, 0.0, 2.0),   # Move forward for 2 seconds
+            (1.0, 0.0, 2.0),   # Move forward for 2 seconds
             (0.0, 1.57, 1.0),  # Turn 90 degrees
-            (0.2, 0.0, 2.0),   # Move forward for 2 seconds
+            (1.0, 0.0, 2.0),   # Move forward for 2 seconds
             (0.0, 1.57, 1.0)   # Final 90-degree turn
         ]
         
