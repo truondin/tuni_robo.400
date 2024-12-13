@@ -14,7 +14,7 @@ export TURTLEBOT3_MODEL=burger
 ros2 run turtlebot3_teleop teleop_keyboard
 
 save map:
-rosrun map_server map_saver -f /maps
+ros2 run nav2_map_server map_saver_cli -f /maps
 
 INFO for /opt/ros/humble/share/turtlebot3_cartographer/config/turtlebot3_lds_2d.lua:
 TRAJECTORY_BUILDER_2D.min_range: Minimum distance for valid LIDAR readings (0.12m).
